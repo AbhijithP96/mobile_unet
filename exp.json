@@ -1,0 +1,169 @@
+{
+  "defaults": {
+    "decoder": { "mobile": true },
+    "hyperparams": {
+      "input_size": "config.ENCODER_IMAGE_SIZE",
+      "filters": [512, 256, 128, 64],
+      "num_classes": 1,
+      "batches": 8,
+      "epochs": 50
+    },
+    "loss": { "name": "dice", "weights": null },
+    "optimizer": {
+      "name": "adam",
+      "lr": 0.001,
+      "scheduler": { "required": true, "name": "piecewise" }
+    },
+    "dataset": { "path": null, "augment": true },
+    "mlflow": {
+      "log": true,
+      "tracking_uri": "http://localhost:8080",
+      "experiment_name": "default",
+      "model_name": "mobile_unet_dev"
+    }
+  },
+
+  "experiments": [
+    {
+      "name": "optimizer_comparison",
+      "description": "Compare different optimizers with default settings",
+      "mlflow_experiment": "optimizer_comparison",
+      "runs": [
+        { "optimizer": { "name": "adam" } },
+        { "optimizer": { "name": "adamw" } },
+        { "optimizer": { "name": "rmsprop" } },
+        { "optimizer": { "name": "sgd" } }
+      ]
+    },
+    
+    {
+      "name": "scheduler_comparison",
+      "description": "Compare different learning rate schedules",
+      "mlflow_experiment": "scheduler_comparison", 
+      "runs": [
+        { "optimizer": { "scheduler": { "required": true, "name": "exponential" } } },
+        { "optimizer": { "scheduler": { "required": true, "name": "piecewise" } } },
+        { "optimizer": { "scheduler": { "required": true, "name": "cosine" } } },
+        { "optimizer": { "scheduler": { "required": false, "name": "constant" } } }
+      ]
+    },
+
+    {
+      "name": "loss_function_comparison",
+      "description": "Compare different loss functions",
+      "mlflow_experiment": "loss_comparison",
+      "runs": [
+        { "loss": { "name": "dice", "weights": null } },
+        { "loss": { "name": "bce", "weights": null } },
+        { "loss": { "name": "focal", "weights": null } },
+        { "loss": { "name": "bce_dice", "weights": [0.3, 0.7] } },
+        { "loss": { "name": "focal_dice", "weights": [0.3, 0.7] } }
+      ]
+    },
+
+    {
+      "name": "learning_rate_sweep",
+      "description": "Find optimal learning rate across different optimizers",
+      "mlflow_experiment": "lr_sweep",
+      "runs": [
+        { "optimizer": { "name": "adam", "lr": 0.01 } },
+        { "optimizer": { "name": "adam", "lr": 0.005 } },
+        { "optimizer": { "name": "adam", "lr": 0.001 } },
+        { "optimizer": { "name": "adam", "lr": 0.0005 } },
+        { "optimizer": { "name": "adam", "lr": 0.0001 } },
+        
+        { "optimizer": { "name": "adamw", "lr": 0.01 } },
+        { "optimizer": { "name": "adamw", "lr": 0.005 } },
+        { "optimizer": { "name": "adamw", "lr": 0.001 } },
+        { "optimizer": { "name": "adamw", "lr": 0.0005 } },
+        
+        { "optimizer": { "name": "sgd", "lr": 0.1 } },
+        { "optimizer": { "name": "sgd", "lr": 0.05 } },
+        { "optimizer": { "name": "sgd", "lr": 0.01 } },
+        { "optimizer": { "name": "sgd", "lr": 0.005 } }
+      ]
+    },
+
+    {
+      "name": "filter_reduction_study",
+      "description": "Test parameter reduction with different filter sizes",
+      "mlflow_experiment": "filter_reduction",
+      "runs": [
+        { "hyperparams": { "filters": [512, 256, 128, 64] } },
+        { "hyperparams": { "filters": [256, 128, 64, 32] } },
+        { "hyperparams": { "filters": [128, 64, 32, 16] } },
+        { "hyperparams": { "filters": [320, 160, 96, 48] } }
+      ]
+    },
+
+    {
+      "name": "best_combinations_round1",
+      "description": "Test promising optimizer+loss combinations",
+      "mlflow_experiment": "best_combinations_r1",
+      "runs": [
+        { "optimizer": { "name": "adam" }, "loss": { "name": "bce_dice", "weights": [0.3, 0.7] } },
+        { "optimizer": { "name": "adam" }, "loss": { "name": "focal_dice", "weights": [0.3, 0.7] } },
+        { "optimizer": { "name": "adamw" }, "loss": { "name": "bce_dice", "weights": [0.3, 0.7] } },
+        { "optimizer": { "name": "adamw" }, "loss": { "name": "focal_dice", "weights": [0.3, 0.7] } },
+        { "optimizer": { "name": "adamw" }, "loss": { "name": "focal", "weights": null } }
+      ]
+    },
+
+    {
+      "name": "scheduler_loss_combinations",
+      "description": "Best schedulers with different loss functions",
+      "mlflow_experiment": "scheduler_loss_combo",
+      "runs": [
+        { "optimizer": { "scheduler": { "required": true, "name": "cosine" } }, "loss": { "name": "dice" } },
+        { "optimizer": { "scheduler": { "required": true, "name": "cosine" } }, "loss": { "name": "bce_dice", "weights": [0.3, 0.7] } },
+        { "optimizer": { "scheduler": { "required": true, "name": "cosine" } }, "loss": { "name": "focal_dice", "weights": [0.3, 0.7] } },
+        
+        { "optimizer": { "scheduler": { "required": true, "name": "exponential" } }, "loss": { "name": "dice" } },
+        { "optimizer": { "scheduler": { "required": true, "name": "exponential" } }, "loss": { "name": "bce_dice", "weights": [0.3, 0.7] } },
+        { "optimizer": { "scheduler": { "required": true, "name": "exponential" } }, "loss": { "name": "focal_dice", "weights": [0.3, 0.7] } }
+      ]
+    },
+
+    {
+      "name": "comprehensive_grid_search",
+      "description": "Systematic exploration of top combinations",
+      "mlflow_experiment": "grid_search",
+      "runs": [
+        { "optimizer": { "name": "adam", "lr": 0.001, "scheduler": { "required": true, "name": "cosine" } }, "loss": { "name": "bce_dice", "weights": [0.3, 0.7] } },
+        { "optimizer": { "name": "adam", "lr": 0.0005, "scheduler": { "required": true, "name": "cosine" } }, "loss": { "name": "bce_dice", "weights": [0.3, 0.7] } },
+        { "optimizer": { "name": "adamw", "lr": 0.001, "scheduler": { "required": true, "name": "cosine" } }, "loss": { "name": "bce_dice", "weights": [0.3, 0.7] } },
+        { "optimizer": { "name": "adamw", "lr": 0.0005, "scheduler": { "required": true, "name": "cosine" } }, "loss": { "name": "bce_dice", "weights": [0.3, 0.7] } },
+        
+        { "optimizer": { "name": "adam", "lr": 0.001, "scheduler": { "required": true, "name": "exponential" } }, "loss": { "name": "focal_dice", "weights": [0.3, 0.7] } },
+        { "optimizer": { "name": "adamw", "lr": 0.001, "scheduler": { "required": true, "name": "exponential" } }, "loss": { "name": "focal_dice", "weights": [0.3, 0.7] } },
+        
+        { "optimizer": { "name": "adam", "lr": 0.001, "scheduler": { "required": true, "name": "piecewise" } }, "loss": { "name": "focal", "weights": null } },
+        { "optimizer": { "name": "adamw", "lr": 0.001, "scheduler": { "required": true, "name": "piecewise" } }, "loss": { "name": "focal", "weights": null } }
+      ]
+    },
+
+    {
+      "name": "augmentation_ablation",
+      "description": "Test effect of data augmentation with best configurations",
+      "mlflow_experiment": "augmentation_study",
+      "runs": [
+        { "dataset": { "augment": true }, "optimizer": { "name": "adam" }, "loss": { "name": "bce_dice", "weights": [0.3, 0.7] } },
+        { "dataset": { "augment": false }, "optimizer": { "name": "adam" }, "loss": { "name": "bce_dice", "weights": [0.3, 0.7] } },
+        { "dataset": { "augment": true }, "optimizer": { "name": "adamw" }, "loss": { "name": "focal_dice", "weights": [0.3, 0.7] } },
+        { "dataset": { "augment": false }, "optimizer": { "name": "adamw" }, "loss": { "name": "focal_dice", "weights": [0.3, 0.7] } }
+      ]
+    },
+
+    {
+      "name": "mobile_vs_standard_decoder",
+      "description": "Compare mobile decoder vs standard decoder",
+      "mlflow_experiment": "decoder_comparison",
+      "runs": [
+        { "decoder": { "mobile": true }, "optimizer": { "name": "adam" }, "loss": { "name": "bce_dice", "weights": [0.3, 0.7] } },
+        { "decoder": { "mobile": false }, "optimizer": { "name": "adam" }, "loss": { "name": "bce_dice", "weights": [0.3, 0.7] } },
+        { "decoder": { "mobile": true }, "optimizer": { "name": "adamw" }, "loss": { "name": "focal_dice", "weights": [0.3, 0.7] } },
+        { "decoder": { "mobile": false }, "optimizer": { "name": "adamw" }, "loss": { "name": "focal_dice", "weights": [0.3, 0.7] } }
+      ]
+    }
+  ]
+}
