@@ -1,7 +1,7 @@
 [project]
 name = "mobilenet-unet"
 version = "0.1.0"
-description = "Add your description here"
+description = "Lightweight MobileNetV2-based U-Net for real-time lane segmentation."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
