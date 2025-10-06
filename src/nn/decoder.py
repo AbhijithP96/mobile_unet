@@ -153,6 +153,9 @@ class MobileDecoder(keras.layers.Layer):
 
     def _create_smaller_conv_layers(self, f):
 
+        # MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications
+        # https://arxiv.org/pdf/1704.04861
+
         layers = keras.Sequential(
             [
                 keras.layers.DepthwiseConv2D(kernel_size=3, padding="same"),
