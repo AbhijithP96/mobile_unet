@@ -108,13 +108,13 @@ Refer to ```data/exp.json``` for sample experiment configurations.
 
 ### Testing
 
-To test on the Tu Simple test set, run:
+To test on the Tu Simple test set using your mlflow registered models, run:
 ```bash
 uv run test.py --model name/of/mlflow/model --version version_number
 ```
 
 ### Inference
-To perform inference on a single image, run:
+To perform inference on a single image using your best model, run:
 ```bash
 uv run infer.py path/to/image.jpg path/to/saved_model/mobile_unet.keras
 ```
