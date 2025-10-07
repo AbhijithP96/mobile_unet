@@ -105,10 +105,10 @@ if __name__ == "__main__":
     # print(score)
     # utils.dump_json(score, name='test_result')
 
-    #image_path = "./data/20.jpg"
+    # image_path = "./data/20.jpg"
 
-    #mask = test_single(name, version, image_path)
+    # mask = test_single(name, version, image_path)
 
     # show mask
-    #plt.imshow(np.uint8(mask))
-    #plt.show()
+    # plt.imshow(np.uint8(mask))
+    # plt.show()
