@@ -16,7 +16,7 @@ def setup_kaggle_credentials():
         raise FileNotFoundError(f"kaggle.json not found at: {json_path}")
 
     credential_dir = json_path.parent
-    os.environ["KAGGLE_CONFIG_DIR"] = credential_dir
+    os.environ["KAGGLE_CONFIG_DIR"] = str(credential_dir)
 
 
 def download_dataset():

@@ -27,6 +27,7 @@ def get_segmented_image(image_path):
     """
 
     file_path = image_path
+    image_size = cv2.imread(file_path).shape[:2]
     url = "http://0.0.0.0:8000/segment"
 
     with open(file_path, "rb") as f:
@@ -39,10 +40,13 @@ def get_segmented_image(image_path):
     seg_bytes = base64.b64decode(seg_b64)
     seg_np = np.frombuffer(seg_bytes, np.uint8)
     seg_img = cv2.imdecode(seg_np, cv2.IMREAD_COLOR)
+    seg_img = cv2.resize(seg_img, image_size[::-1], interpolation=cv2.INTER_CUBIC)
 
-    cv2.imshow("Predicted Mask", cv2.resize(seg_img, (1280, 720)))
+    cv2.imshow("Predicted Mask", seg_img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+
+    cv2.imwrite('./data/samples/predicted_mask.jpg', seg_img)
 
 
 if __name__ == "__main__":

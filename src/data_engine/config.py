@@ -1,6 +1,6 @@
 # Kaggle credentials and download directory
 KAGGLE_CREDENTIAL_JSON_PATH = "/home/basilisk/Downloads/kaggle.json"
-NEW_CACHE_DIR = "/media/basilisk/75EEEA7B0189DFCA/dataset"
+NEW_CACHE_DIR = "/media/basilisk/Abhi/dataset"
 
 # Dataset Parameters
 DATASET_NAME = "manideep1108/tusimple"

@@ -136,11 +136,17 @@ if __name__ == "__main__":
     import sys
 
     path = sys.argv[1]
+    model_path = sys.argv[2]
 
-    ob = Inference(mlflow_model=False, model_path="./saved_model/mobile_unet.keras")
+    ob = Inference(mlflow_model=False, model_path=model_path)
     # ob = Inference(mlflow_model=True, model_name = 'mobile_unet', version= 1)
 
     image = cv2.imread(path)
     mask = ob.predict(image)
+
+    cv2.imshow("Image", image)
+    cv2.imshow("Mask", mask)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
     # ob.model.save('./saved_model/mobile_unet.keras')

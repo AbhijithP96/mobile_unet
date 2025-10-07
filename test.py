@@ -85,18 +85,30 @@ def test_single(model_name: str, version: int, image_path: str):
 
 if __name__ == "__main__":
 
-    name = "mobile_unet"
-    version = 1
+    import argparse
 
-    # score = test_unet(name, version)
+    parser = argparse.ArgumentParser(description="Test the Mobile UNet model")
+    parser.add_argument("--model", type=str, default="mobile_unet", help="Model name")
+    parser.add_argument("--version", type=int, default=1, help="Model version")
+    args = parser.parse_args()
+
+    name = args.model
+    version = args.version
+
+    score = test_unet(name, version)
+
+    print(f"Test Dice Coefficient: {score['dice_coef']:.4f}")
+    print(f"Test Loss: {score['loss']:.4f}")
+    print(f'Test Precision: {score["precision"]:.4f}')
+    print(f'Test Recall: {score["recall"]:.4f}')
 
     # print(score)
     # utils.dump_json(score, name='test_result')
 
-    image_path = "./data/20.jpg"
+    #image_path = "./data/20.jpg"
 
-    mask = test_single(name, version, image_path)
+    #mask = test_single(name, version, image_path)
 
     # show mask
-    plt.imshow(np.uint8(mask))
-    plt.show()
+    #plt.imshow(np.uint8(mask))
+    #plt.show()
