@@ -36,9 +36,9 @@ This project implements a production-ready lane segmentation model that combines
 ### Training Results (Best Model - Epoch 159/300)
 | Metric | Train | Validation | Test |
 |--------|-------|------------|------|
-| **Dice Coefficient** | 0.5557 | 0.6641 | **0.6836** |
+| **Dice Coefficient** | 0.5527 | 0.6641 | **0.6836** |
 | **Binary Accuracy** | 0.9644 | 0.9715 | **0.9735** |
-| **Loss** | 0.3405 | 0.2550 | **0.2398** |
+| **Loss** | 0.3430 | 0.2573 | **0.2398** |
 
 ## 🏗️ Architecture
 
