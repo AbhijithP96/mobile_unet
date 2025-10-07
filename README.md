@@ -7,7 +7,7 @@
 [![Docker](https://img.shields.io/badge/Docker-Hub-blue.svg)](https://hub.docker.com/)
 [![Model Size](https://img.shields.io/badge/Model%20Size-27MB-brightgreen.svg)]()
 [![Inference](https://img.shields.io/badge/Inference-78ms-brightgreen.svg)]()
-[![CI/CD](https://img.shields.io/github/actions/workflow/status/AbhijithP96/mobile_unet/ci.yml?label=CI/CD)](https://github.com/AbhijithP96/mobile_unet/.github/actions/workflows/ci.yml)
+[![CI/CD](https://img.shields.io/github/actions/workflow/status/AbhijithP96/.github/workflows/main.yml?label=CI/CD)](https://github.com/AbhijithP96/mobile_unet/.github/workflows/main.yml)
 
 **A lightweight, efficient MobileNetV2-based U-Net for real-time lane segmentation, optimized for fast, accurate performance on mobile and edge devices.**
 
