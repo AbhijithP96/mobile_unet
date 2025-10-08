@@ -31,7 +31,7 @@ This project implements a production-ready lane segmentation model that combines
 | **Precision** | **69.11%** |
 | **Recall** | **70.84%** | 
 | **Model Size** | **27MB** | 
-| **Inference Time** | **78ms** |
+| **Inference Time** | **78ms** (keras model) **150ms** (TFLite model)|
 
 ### Training Results (Best Model - Epoch 159/300)
 | Metric | Train | Validation | Test |
@@ -170,6 +170,30 @@ uv run streamlit run app.py
 ```
 Open the provided URL in the terminal to access the web interface.
 Upload an image and view the predicted lane mask and overlay.
+
+## 📱 Mobile Device Deployment
+
+A simple android app is developed to demonstrate real-time lane segmentation on mobile devices using TensorFlow Lite. The app uses the TFLite model converted from the trained Keras model.
+
+The apk can be downloaded from [here](https://drive.google.com/drive/folders/1Vm56OHK0rx8MqKUlN5OcT8TV_9Rvp84j?usp=drive_link).
+
+To install the app, enable usb debugging on your android device and run:
+```bash
+sudo install android-tools-adb android-tools-fastboot
+
+# list connected devices
+adb devices
+
+# install the apk
+adb -s <device_id> install -t path/to/apk
+```
+
+### Screenshots from the app
+
+| Screenshots | Inference Time |
+|-------------|----------------|
+|![App Screenshot 1](data/App01_resized.jpeg) | 0.176s |
+|![App Screenshot 2](data/App02_resized.jpeg) | 0.110s |
 
 ## 🔬 Systematic Experiments
 
