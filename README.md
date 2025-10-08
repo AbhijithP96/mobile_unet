@@ -179,6 +179,8 @@ The apk can be downloaded from [here](https://drive.google.com/drive/folders/1Vm
 
 To install the app, enable usb debugging on your android device and run:
 ```bash
+# for linux users, install adb and fastboot tools
+sudo apt update
 sudo install android-tools-adb android-tools-fastboot
 
 # list connected devices
